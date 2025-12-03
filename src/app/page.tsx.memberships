@@ -1,0 +1,203 @@
+'use client';
+
+import { useState } from 'react';
+import LoadingStates from '@/components/LoadingStates';
+import { SiteNavigation } from '@/components/SiteNavigation';
+import { SiteFooterContent } from '@/components/SiteFooterContent';
+
+export default function Membership() {
+  const [isIndividualLoading, setIsIndividualLoading] = useState(true);
+  const [isHouseholdLoading, setIsHouseholdLoading] = useState(true);
+
+  const scrollToForm = (formId: string) => {
+    const element = document.getElementById(formId);
+    if (element) {
+      // Scroll with some offset to show the tip notice above
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  return (
+    <>
+      <SiteNavigation />
+      
+      {/* Main Content */}
+      <div className="bg-[#fafbff]" style={{ paddingBlock: 'var(--space-4)' }}>
+        <div className="container">
+
+          {/* Page Header */}
+          <div style={{ textAlign: 'center', marginBottom: 'var(--space-3)' }}>
+            <h1 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-2)', lineHeight: '1.2', fontSize: 'clamp(1.5rem, 5vw, 2.5rem)' }}>
+              Become a Member Today
+            </h1>
+            <p className="font-['Bitter',serif] text-[#666]" style={{ marginBottom: 'var(--space-3)', maxWidth: '800px', marginInline: 'auto', lineHeight: '1.6', fontSize: 'clamp(0.875rem, 2.5vw, 1.125rem)' }}>
+              Support senior services in Ukiah. Memberships start at just $40/year.
+            </p>
+          </div>
+
+          {/* Pricing Buttons */}
+          <div className="grid-cards" style={{ marginBottom: 'var(--space-4)', maxWidth: '800px', marginInline: 'auto' }}>
+            <button 
+              onClick={() => scrollToForm('individual-section')}
+              className="group flex flex-col items-center justify-center text-center bg-white rounded-lg border-4 border-[#427d78] hover:bg-[#427d78] transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
+              style={{ padding: '24px 20px', minHeight: '160px' }}
+              aria-label="Sign up for Individual Membership - $40 per year"
+            >
+              <div className="text-4xl md:text-5xl font-bold text-[#427d78] group-hover:text-white transition-colors font-['Jost',sans-serif]" style={{ marginBottom: 'var(--space-2)', lineHeight: '1' }}>$40</div>
+              <div className="text-lg md:text-xl font-['Jost',sans-serif] font-bold text-gray-900 group-hover:text-white transition-colors" style={{ marginBottom: 'var(--space-1)', lineHeight: '1.2' }}>Individual</div>
+              <div className="text-sm text-[#666] group-hover:text-white transition-colors font-['Bitter',serif]" style={{ lineHeight: '1.4' }}>1 person/year</div>
+            </button>
+            <button 
+              onClick={() => scrollToForm('household-section')}
+              className="group flex flex-col items-center justify-center text-center bg-white rounded-lg border-4 border-[#427d78] hover:bg-[#427d78] transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
+              style={{ padding: '24px 20px', minHeight: '160px' }}
+              aria-label="Sign up for Household Membership - $65 per year"
+            >
+              <div className="text-4xl md:text-5xl font-bold text-[#427d78] group-hover:text-white transition-colors font-['Jost',sans-serif]" style={{ marginBottom: 'var(--space-2)', lineHeight: '1' }}>$65</div>
+              <div className="text-lg md:text-xl font-['Jost',sans-serif] font-bold text-gray-900 group-hover:text-white transition-colors" style={{ marginBottom: 'var(--space-1)', lineHeight: '1.2' }}>Household</div>
+              <div className="text-sm text-[#666] group-hover:text-white transition-colors font-['Bitter',serif]" style={{ lineHeight: '1.4' }}>2 people/year</div>
+            </button>
+          </div>
+
+          {/* Sign Up Forms */}
+          <div style={{ display: 'grid', gap: 'var(--space-7)' }}>
+            {/* Individual Form Section */}
+            <div id="individual-section" className="scroll-mt-8">
+              {/* Tip Notice for Individual Form */}
+              <div className="bg-red-50 border-2 border-red-400 rounded-lg" style={{ padding: 'var(--space-3)', marginBottom: 'var(--space-4)' }}>
+                <h3 className="text-base md:text-lg font-['Jost',sans-serif] font-bold text-red-900 text-center" style={{ marginBottom: 'var(--space-2)', lineHeight: '1.3' }}>
+                  ⚠️ Set Zeffy Tip to $0
+                </h3>
+                <p className="text-xs md:text-sm text-red-900 font-['Bitter',serif] text-center" style={{ marginBottom: 'var(--space-2)', maxWidth: '700px', marginInline: 'auto', lineHeight: '1.6' }}>
+                  When filling out the form below, <strong>set the tip to $0</strong> so you don&apos;t pay any fees.
+                </p>
+                <div className="bg-white rounded border border-red-300" style={{ padding: 'var(--space-2)', maxWidth: '600px', marginInline: 'auto', overflow: 'hidden' }}>
+                  <img
+                    src="/zero_tip.png"
+                    alt="Set Zeffy tip to zero"
+                    className="rounded"
+                    style={{ 
+                      maxWidth: '100%', 
+                      height: 'auto', 
+                      display: 'block'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Individual Form */}
+              <div className="card">
+                <div className="text-center" style={{ marginBottom: 'var(--space-3)' }}>
+                  <h2 className="text-xl md:text-2xl lg:text-3xl font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-2)', lineHeight: '1.2' }}>Individual Membership</h2>
+                  <p className="text-base md:text-lg text-[#666] font-['Bitter',serif]" style={{ marginBottom: 0, maxWidth: '600px', marginInline: 'auto', lineHeight: '1.5' }}>$40/year • Single membership</p>
+                </div>
+                <div className="bg-gray-50 rounded-lg border-4 border-[#427d78] relative" style={{ padding: 'var(--space-3)' }}>
+                  {isIndividualLoading && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-50 rounded-lg z-10">
+                      <LoadingStates size="lg" />
+                      <p className="text-lg text-gray-600 font-['Bitter',serif] font-medium" style={{ marginTop: 'var(--space-3)' }}>Loading membership form...</p>
+                      <div className="w-full max-w-md space-y-3" style={{ marginTop: 'var(--space-4)', paddingInline: 'var(--space-4)' }}>
+                        <div className="h-12 bg-gray-200 rounded-lg animate-pulse"></div>
+                        <div className="h-12 bg-gray-200 rounded-lg animate-pulse"></div>
+                        <div className="h-12 bg-gray-200 rounded-lg animate-pulse"></div>
+                        <div className="h-24 bg-gray-200 rounded-lg animate-pulse"></div>
+                      </div>
+                    </div>
+                  )}
+                  <div style={{ position: 'relative', overflow: 'hidden', height: '1400px', width: '100%' }}>
+                    <iframe 
+                      title='Individual Membership form powered by Zeffy' 
+                      style={{ position: 'absolute', border: 0, top: 0, left: 0, bottom: 0, right: 0, width: '100%', height: '100%' }} 
+                      src='https://www.zeffy.com/embed/ticketing/become-a-member-of-ukiah-senior-center' 
+                      allow="payment"
+                      onLoad={() => setIsIndividualLoading(false)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Household Form Section */}
+            <div id="household-section" className="scroll-mt-8">
+              {/* Tip Notice for Household Form */}
+              <div className="bg-red-50 border-2 border-red-400 rounded-lg" style={{ padding: 'var(--space-3)', marginBottom: 'var(--space-4)' }}>
+                <h3 className="text-base md:text-lg font-['Jost',sans-serif] font-bold text-red-900 text-center" style={{ marginBottom: 'var(--space-2)', lineHeight: '1.3' }}>
+                  ⚠️ Set Zeffy Tip to $0
+                </h3>
+                <p className="text-xs md:text-sm text-red-900 font-['Bitter',serif] text-center" style={{ marginBottom: 'var(--space-2)', maxWidth: '700px', marginInline: 'auto', lineHeight: '1.6' }}>
+                  When filling out the form below, <strong>set the tip to $0</strong> so you don&apos;t pay any fees.
+                </p>
+                <div className="bg-white rounded border border-red-300" style={{ padding: 'var(--space-2)', maxWidth: '600px', marginInline: 'auto', overflow: 'hidden' }}>
+                  <img
+                    src="/zero_tip.png"
+                    alt="Set Zeffy tip to zero"
+                    className="rounded"
+                    style={{ 
+                      maxWidth: '100%', 
+                      height: 'auto', 
+                      display: 'block'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Household Form */}
+              <div className="card">
+                <div className="text-center" style={{ marginBottom: 'var(--space-3)' }}>
+                  <h2 className="text-xl md:text-2xl lg:text-3xl font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-2)', lineHeight: '1.2' }}>Household Membership</h2>
+                  <p className="text-base md:text-lg text-[#666] font-['Bitter',serif]" style={{ marginBottom: 0, maxWidth: '600px', marginInline: 'auto', lineHeight: '1.5' }}>$65/year • Up to 2 household members</p>
+                </div>
+                <div className="bg-gray-50 rounded-lg border-4 border-[#427d78] relative" style={{ padding: 'var(--space-3)' }}>
+                  {isHouseholdLoading && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-50 rounded-lg z-10">
+                      <LoadingStates size="lg" />
+                      <p className="text-lg text-gray-600 font-['Bitter',serif] font-medium" style={{ marginTop: 'var(--space-3)' }}>Loading membership form...</p>
+                      <div className="w-full max-w-md space-y-3" style={{ marginTop: 'var(--space-4)', paddingInline: 'var(--space-4)' }}>
+                        <div className="h-12 bg-gray-200 rounded-lg animate-pulse"></div>
+                        <div className="h-12 bg-gray-200 rounded-lg animate-pulse"></div>
+                        <div className="h-12 bg-gray-200 rounded-lg animate-pulse"></div>
+                        <div className="h-24 bg-gray-200 rounded-lg animate-pulse"></div>
+                      </div>
+                    </div>
+                  )}
+                  <div style={{ position: 'relative', overflow: 'hidden', height: '1400px', width: '100%' }}>
+                    <iframe 
+                      title='Household Membership form powered by Zeffy' 
+                      style={{ position: 'absolute', border: 0, top: 0, left: 0, bottom: 0, right: 0, width: '100%', height: '100%' }} 
+                      src='https://www.zeffy.com/embed/ticketing/join-ukiah-senior-center-as-a-household' 
+                      allow="payment"
+                      onLoad={() => setIsHouseholdLoading(false)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Alternative Signup */}
+          <div className="card text-center" style={{ marginTop: 'var(--space-4)' }}>
+            <p className="text-base md:text-lg text-[#666] font-['Bitter',serif]" style={{ marginBottom: 'var(--space-3)', lineHeight: '1.5' }}>
+              Prefer to mail your application?
+            </p>
+            <a 
+              href="https://ukiahseniorcenter.org/wp-content/uploads/2024/07/membership_form_updated_1-1-23-compressed.pdf" 
+              className="inline-flex items-center bg-[#427d78] hover:bg-[#5eb3a1] text-white rounded-sm font-['Montserrat',sans-serif] font-semibold text-sm md:text-base uppercase transition-all duration-300 border-2 border-[#427d78] hover:border-[#5eb3a1] shadow-md hover:shadow-lg"
+              style={{ padding: '16px 32px', minHeight: '52px' }}
+              target="_blank" 
+              rel="noopener noreferrer"
+              aria-label="Download printable membership application form"
+            >
+              <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Download Form
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <SiteFooterContent />
+    </>
+  );
+}

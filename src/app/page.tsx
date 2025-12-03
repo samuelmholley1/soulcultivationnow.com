@@ -1,139 +1,131 @@
-import Link from 'next/link';
-import { Metadata } from 'next';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'The Fork in the Road',
-  description: 'Choose your path: Professional wisdom, Shamanic practice, or the integrated Soul Cultivation journey.',
-};
+import Link from 'next/link';
+import { SiteNavigation } from '@/components/SiteNavigation';
+import { SiteFooterContent } from '@/components/SiteFooterContent';
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-cream to-bg">
+    <>
+      <SiteNavigation />
+      
       {/* Hero Section */}
-      <section className="container mx-auto px-6 py-20 text-center">
-        <h1 className="text-5xl md:text-7xl font-bold text-ink mb-6">
-          Soul Cultivation
-        </h1>
-        <p className="text-2xl md:text-3xl text-lavender font-medium mb-4">
-          We can&apos;t not become enlightened; it is our destiny path.
-        </p>
-        <p className="text-xl text-copy max-w-3xl mx-auto">
-          We might as well embrace it.
-        </p>
-      </section>
+      <div className="bg-[#fafbff]" style={{ paddingBlock: 'var(--space-6)' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: 'var(--space-5)' }}>
+            <h1 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-3)', lineHeight: '1.1', fontSize: 'clamp(2rem, 6vw, 3.5rem)' }}>
+              Soul Cultivation
+            </h1>
+            <p className="font-['Jost',serif] text-[#967BB6] font-medium" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', lineHeight: '1.3' }}>
+              We can&apos;t not become enlightened;<br />it is our destiny path.
+            </p>
+            <p className="font-['Bitter',serif] text-[#666]" style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', lineHeight: '1.5' }}>
+              We might as well embrace it.
+            </p>
+          </div>
 
-      {/* The Fork Section */}
-      <section className="container mx-auto px-6 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-ink mb-4">
-            Choose Your Path
-          </h2>
-          <p className="text-lg text-copy max-w-2xl mx-auto">
-            Whether you seek academic understanding, spiritual practice, or the integrated approach,
-            your journey to flow begins here.
-          </p>
+          {/* The Fork - Three Pathways */}
+          <div style={{ marginBottom: 'var(--space-5)' }}>
+            <h2 className="font-['Jost',sans-serif] font-bold text-[#427d78] text-center" style={{ marginBottom: 'var(--space-4)', lineHeight: '1.2', fontSize: 'clamp(1.75rem, 4vw, 2.5rem)' }}>
+              Choose Your Path
+            </h2>
+            <p className="font-['Bitter',serif] text-[#666] text-center" style={{ marginBottom: 'var(--space-5)', maxWidth: '800px', marginInline: 'auto', lineHeight: '1.6', fontSize: 'clamp(0.875rem, 2.5vw, 1.125rem)' }}>
+              Whether you seek academic understanding, spiritual practice, or the integrated approach,
+              your journey to flow begins here.
+            </p>
+
+            {/* Three Pathway Cards */}
+            <div className="grid-cards" style={{ marginBottom: 'var(--space-5)' }}>
+              {/* Left Path - Professional */}
+              <Link href="/professional" className="card group hover:border-[#4682B4] transition-all duration-300">
+                <div style={{ textAlign: 'center', padding: 'var(--space-4)' }}>
+                  <div style={{ fontSize: '3rem', marginBottom: 'var(--space-3)' }}>📚</div>
+                  <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78] group-hover:text-[#4682B4]" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', lineHeight: '1.2' }}>
+                    The Material Path
+                  </h3>
+                  <p className="font-['Bitter',serif] text-[#666]" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(0.875rem, 2vw, 1rem)', lineHeight: '1.4' }}>
+                    Social Work • Research • Psychology
+                  </p>
+                  <p className="font-['Bitter',serif] text-[#6B7280]" style={{ fontSize: 'clamp(0.75rem, 1.8vw, 0.875rem)', lineHeight: '1.5' }}>
+                    Grounded in Master&apos;s level training, backed by sociology and behavioral science. The academic foundation.
+                  </p>
+                </div>
+              </Link>
+
+              {/* Middle Path - Integrated (RECOMMENDED) */}
+              <Link href="/soul-cultivation" className="card relative border-4 border-[#427d78] bg-gradient-to-br from-[#427d78] to-[#967BB6] hover:shadow-xl transition-all duration-300" style={{ minHeight: '100%' }}>
+                <div className="absolute -top-3 -right-3 bg-[#FFD700] text-[#000] font-['Jost',sans-serif] font-bold rounded-full shadow-md" style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}>
+                  RECOMMENDED
+                </div>
+                <div style={{ textAlign: 'center', padding: 'var(--space-4)', color: 'white' }}>
+                  <div style={{ fontSize: '3rem', marginBottom: 'var(--space-3)' }}>🌊</div>
+                  <h3 className="font-['Jost',sans-serif] font-bold" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', lineHeight: '1.2' }}>
+                    The Bridge
+                  </h3>
+                  <p className="font-['Bitter',serif] font-medium" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(0.875rem, 2vw, 1rem)', lineHeight: '1.4' }}>
+                    Soul Cultivation • Integration • Flow
+                  </p>
+                  <p className="font-['Bitter',serif]" style={{ fontSize: 'clamp(0.75rem, 1.8vw, 0.875rem)', lineHeight: '1.5', opacity: 0.95 }}>
+                    Where ancient wisdom meets modern psychology. Move from trauma to flow. Align your Three Brains. This is the integrated path.
+                  </p>
+                </div>
+              </Link>
+
+              {/* Right Path - Shamanic */}
+              <Link href="/shamanic" className="card group hover:border-[#967BB6] transition-all duration-300">
+                <div style={{ textAlign: 'center', padding: 'var(--space-4)' }}>
+                  <div style={{ fontSize: '3rem', marginBottom: 'var(--space-3)' }}>🕊️</div>
+                  <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78] group-hover:text-[#967BB6]" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', lineHeight: '1.2' }}>
+                    The Soul Path
+                  </h3>
+                  <p className="font-['Bitter',serif] text-[#666]" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(0.875rem, 2vw, 1rem)', lineHeight: '1.4' }}>
+                    Rituals • Energy • Shamanic Practice
+                  </p>
+                  <p className="font-['Bitter',serif] text-[#6B7280]" style={{ fontSize: 'clamp(0.75rem, 1.8vw, 0.875rem)', lineHeight: '1.5' }}>
+                    Blue Heron lineage. Dagara cosmology. Water cleansing, grief rituals, and space clearing. The energetic foundation.
+                  </p>
+                </div>
+              </Link>
+            </div>
+          </div>
+
+          {/* Quiz CTA */}
+          <div className="card" style={{ background: 'linear-gradient(135deg, #427d78 0%, #4682B4 100%)', border: 'none', color: 'white', textAlign: 'center', padding: 'var(--space-6)' }}>
+            <h2 className="font-['Jost',sans-serif] font-bold" style={{ marginBottom: 'var(--space-3)', fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', lineHeight: '1.2' }}>
+              Discover Your Elemental Path
+            </h2>
+            <p className="font-['Bitter',serif]" style={{ marginBottom: 'var(--space-4)', fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', lineHeight: '1.5', opacity: 0.95 }}>
+              Take the Dagara Numerology Quiz to reveal your spirit bird and elemental energy.
+            </p>
+            <Link 
+              href="/quiz"
+              className="inline-block bg-white text-[#427d78] font-['Jost',sans-serif] font-bold rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300"
+              style={{ padding: '1rem 2rem', fontSize: 'clamp(1rem, 2.5vw, 1.125rem)' }}
+            >
+              Take the Quiz →
+            </Link>
+          </div>
+
+          {/* About Preview */}
+          <div style={{ textAlign: 'center', marginTop: 'var(--space-6)', paddingBlock: 'var(--space-4)' }}>
+            <p className="font-['Bitter',serif] text-[#666]" style={{ maxWidth: '900px', marginInline: 'auto', lineHeight: '1.7', fontSize: 'clamp(0.875rem, 2.5vw, 1.125rem)' }}>
+              <strong className="text-[#427d78]">Scott Sherman</strong> — The Mendocino Alchemist. 
+              A Master&apos;s level Social Worker and classically trained Shaman (Blue Heron lineage) 
+              who bridges ancient wisdom with modern psychology. Like the Flicker bird, 
+              he flies ahead to scout the terrain, showing you the path without carrying you up the mountain.
+            </p>
+            <Link 
+              href="/about" 
+              className="inline-block font-['Jost',sans-serif] font-medium text-[#427d78] hover:text-[#5eb3a1] transition-colors"
+              style={{ marginTop: 'var(--space-3)', fontSize: 'clamp(0.875rem, 2.5vw, 1rem)' }}
+            >
+              Meet Scott →
+            </Link>
+          </div>
         </div>
+      </div>
 
-        {/* Three Pathways */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {/* Left Path - Professional */}
-          <Link href="/professional" className="group">
-            <div className="bg-card rounded-xl p-8 shadow-md hover:shadow-xl transition-all duration-300 border-2 border-border hover:border-ocean-blue h-full">
-              <div className="text-4xl mb-4 text-ocean-blue">📚</div>
-              <h3 className="text-2xl font-bold text-ink mb-3">
-                The Material Path
-              </h3>
-              <p className="text-copy mb-4">
-                Social Work • Research • Psychology
-              </p>
-              <p className="text-sm text-mute">
-                Grounded in Master&apos;s level training, backed by sociology and behavioral science.
-                The academic foundation.
-              </p>
-              <div className="mt-6 text-ocean-blue font-medium group-hover:underline">
-                Explore Professional →
-              </div>
-            </div>
-          </Link>
-
-          {/* Middle Path - Integrated (RECOMMENDED) */}
-          <Link href="/soul-cultivation" className="group relative">
-            <div className="absolute -top-3 -right-3 bg-sunrise-gold text-ink text-xs font-bold px-3 py-1 rounded-full shadow-md">
-              RECOMMENDED
-            </div>
-            <div className="bg-gradient-to-br from-teal to-lavender rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 h-full text-white">
-              <div className="text-4xl mb-4">🌊</div>
-              <h3 className="text-2xl font-bold mb-3">
-                The Bridge
-              </h3>
-              <p className="mb-4 font-medium">
-                Soul Cultivation • Integration • Flow
-              </p>
-              <p className="text-sm opacity-90">
-                Where ancient wisdom meets modern psychology. Move from trauma to flow.
-                Align your Three Brains. This is the integrated path.
-              </p>
-              <div className="mt-6 font-bold group-hover:underline">
-                Begin Your Journey →
-              </div>
-            </div>
-          </Link>
-
-          {/* Right Path - Shamanic */}
-          <Link href="/shamanic" className="group">
-            <div className="bg-card rounded-xl p-8 shadow-md hover:shadow-xl transition-all duration-300 border-2 border-border hover:border-lavender h-full">
-              <div className="text-4xl mb-4 text-lavender">🕊️</div>
-              <h3 className="text-2xl font-bold text-ink mb-3">
-                The Soul Path
-              </h3>
-              <p className="text-copy mb-4">
-                Rituals • Energy • Shamanic Practice
-              </p>
-              <p className="text-sm text-mute">
-                Blue Heron lineage. Dagara cosmology. Water cleansing, grief rituals, and 
-                space clearing. The energetic foundation.
-              </p>
-              <div className="mt-6 text-lavender font-medium group-hover:underline">
-                Explore Shamanic →
-              </div>
-            </div>
-          </Link>
-        </div>
-      </section>
-
-      {/* Quiz CTA */}
-      <section className="container mx-auto px-6 py-16">
-        <div className="bg-gradient-to-r from-teal to-ocean-blue rounded-2xl p-12 text-center text-white shadow-xl">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Discover Your Elemental Path
-          </h2>
-          <p className="text-xl mb-8 opacity-90">
-            Take the Dagara Numerology Quiz to reveal your spirit bird and elemental energy.
-          </p>
-          <Link 
-            href="/quiz"
-            className="inline-block bg-white text-teal px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300"
-          >
-            Take the Quiz →
-          </Link>
-        </div>
-      </section>
-
-      {/* About Preview */}
-      <section className="container mx-auto px-6 py-16 text-center">
-        <p className="text-lg text-copy max-w-3xl mx-auto leading-relaxed">
-          <strong className="text-ink">Scott Sherman</strong> — The Mendocino Alchemist. 
-          A Master&apos;s level Social Worker and classically trained Shaman (Blue Heron lineage) 
-          who bridges ancient wisdom with modern psychology. Like the Flicker bird, 
-          he flies ahead to scout the terrain, showing you the path without carrying you up the mountain.
-        </p>
-        <Link 
-          href="/about" 
-          className="inline-block mt-6 text-teal font-medium hover:underline"
-        >
-          Meet Scott →
-        </Link>
-      </section>
-    </main>
+      <SiteFooterContent />
+    </>
   );
 }

@@ -1,78 +1,51 @@
-import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
-
-const inter = Inter({ subsets: ['latin'] })
+import type { Metadata } from "next";
+import "./globals.css";
+import { ToastProvider } from '@/components/Toast';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export const metadata: Metadata = {
-  title: 'Soul Cultivation | Ancient Wisdom Meets Modern Psychology',
-  description: 'Transform from trauma to flow with shamanic wisdom. Take the Dagara Numerology Quiz to discover your elemental path.',
-  manifest: '/site.webmanifest',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: 'Soul Cultivation'
-  },
-  formatDetection: {
-    telephone: false,
-  },
+  metadataBase: new URL('https://memberships.ukiahseniorcenter.org'),
+  title: "Membership - Ukiah Senior Center",
+  description: "Become a member of the Ukiah Senior Center. Join over 500 active members supporting our mission to enhance quality of life for seniors.",
   openGraph: {
-    type: 'website',
-    siteName: 'Soul Cultivation',
-    title: 'Soul Cultivation | Ancient Wisdom Meets Modern Psychology',
-    description: 'Transform from trauma to flow with shamanic wisdom. Discover your elemental path.',
+    title: "Membership - Ukiah Senior Center",
+    description: "Become a member of the Ukiah Senior Center. Join over 500 active members supporting our mission to enhance quality of life for seniors.",
+    images: [{ url: '/logo.png', width: 500, height: 500 }],
   },
-  keywords: ['shamanic', 'healing', 'dagara', 'numerology', 'scott sherman', 'soul cultivation', 'blue heron', 'mendocino', 'spirituality', 'coaching']
-}
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: '#008B8B',
-  viewportFit: 'cover'
-}
+  twitter: {
+    card: 'summary_large_image',
+    title: "Membership - Ukiah Senior Center",
+    description: "Become a member of the Ukiah Senior Center. Join over 500 active members supporting our mission to enhance quality of life for seniors.",
+    images: ['/logo.png'],
+  },
+  manifest: '/site.webmanifest',
+  icons: {
+    icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico', sizes: '48x48' }
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+};
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
       <head>
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="UUMC Liturgists" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              console.log('[RootLayout] Initializing app');
-              if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                      console.log('[SW] Service Worker registered:', registration);
-                    })
-                    .catch(function(registrationError) {
-                      console.log('[SW] Service Worker registration failed:', registrationError);
-                    });
-                });
-              }
-            `,
-          }}
-        />
+        <link rel="preconnect" href="https://www.zeffy.com" crossOrigin="" />
       </head>
-      <body className={inter.className}>
-        <ErrorBoundary>
-          {children}
-        </ErrorBoundary>
+      <body className="min-h-screen flex flex-col antialiased">
+        <ToastProvider>
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
+        </ToastProvider>
       </body>
     </html>
-  )
+  );
 }
