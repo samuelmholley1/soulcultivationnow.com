@@ -1,57 +1,78 @@
-import type { Metadata } from "next";
-import "../styles/globals.css";
-import { ToastProvider } from '@/components/ui/Toast';
-import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
+import type { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
 
-const siteTitle = "Soul Cultivation | Ancient Wisdom Meets Modern Psychology";
-const siteDescription = "Transform from trauma to flow with shamanic wisdom. Take the Dagara Numerology Quiz to discover your elemental path to enlightenment.";
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://soulcultivationnow.com'),
-  title: {
-    default: siteTitle,
-    template: '%s | Soul Cultivation'
-  },
-  description: siteDescription,
-  openGraph: {
-    title: siteTitle,
-    description: siteDescription,
-    images: [{ url: '/og.png', width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: siteTitle,
-    description: siteDescription,
-    images: ['/og.png'],
-  },
+  title: 'Soul Cultivation | Ancient Wisdom Meets Modern Psychology',
+  description: 'Transform from trauma to flow with shamanic wisdom. Take the Dagara Numerology Quiz to discover your elemental path.',
   manifest: '/site.webmanifest',
-  icons: {
-    icon: [
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon.ico', sizes: '48x48' }
-    ],
-    apple: '/apple-touch-icon.png',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Soul Cultivation'
   },
-};
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'Soul Cultivation',
+    title: 'Soul Cultivation | Ancient Wisdom Meets Modern Psychology',
+    description: 'Transform from trauma to flow with shamanic wisdom. Discover your elemental path.',
+  },
+  keywords: ['shamanic', 'healing', 'dagara', 'numerology', 'scott sherman', 'soul cultivation', 'blue heron', 'mendocino', 'spirituality', 'coaching']
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: '#008B8B',
+  viewportFit: 'cover'
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
       <head>
-        <link rel="preconnect" href="https://www.zeffy.com" crossOrigin="" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="UUMC Liturgists" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              console.log('[RootLayout] Initializing app');
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                      console.log('[SW] Service Worker registered:', registration);
+                    })
+                    .catch(function(registrationError) {
+                      console.log('[SW] Service Worker registration failed:', registrationError);
+                    });
+                });
+              }
+            `,
+          }}
+        />
       </head>
-      <body className="min-h-screen flex flex-col antialiased">
-        <ToastProvider>
-          <ErrorBoundary>
-            {children}
-          </ErrorBoundary>
-        </ToastProvider>
+      <body className={inter.className}>
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
       </body>
     </html>
-  );
+  )
 }
