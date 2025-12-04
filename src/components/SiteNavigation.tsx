@@ -1,26 +1,38 @@
 'use client';
 
+import Link from 'next/link';
+
 export function SiteNavigation() {
   return (
     <header className="bg-[#427d78] sticky top-0 z-50 shadow-md">
       <div className="container">
         <div className="flex items-center justify-between py-4">
-          {/* Logo - Links to Home */}
-          <a href="https://ukiahseniorcenter.org" className="shrink-0 hover:opacity-80 transition-opacity">
-            <img
-              src="https://ukiahseniorcenter.org/wp-content/uploads/2023/07/usc-logo-greentext.webp"
-              alt="Ukiah Senior Center"
-              className="w-16 h-16 md:w-20 md:h-20"
-            />
-          </a>
+          {/* Logo - Soul Cultivation */}
+          <Link href="/" className="shrink-0 hover:opacity-80 transition-opacity flex items-center gap-3">
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center text-2xl md:text-3xl">
+              🌊
+            </div>
+            <div className="text-white">
+              <div className="font-['Jost',sans-serif] font-bold text-lg md:text-xl leading-tight">Soul Cultivation</div>
+              <div className="font-['Bitter',serif] text-xs md:text-sm opacity-90">Ancient Wisdom • Modern Psychology</div>
+            </div>
+          </Link>
 
-          {/* Back to Home Button */}
-          <a
-            href="https://ukiahseniorcenter.org"
-            className="text-white px-6 py-3 font-['Montserrat',sans-serif] font-semibold text-sm md:text-base hover:opacity-80 transition-all duration-300"
-          >
-            ← Back to Home
-          </a>
+          {/* Navigation Links */}
+          <nav className="hidden md:flex items-center gap-6">
+            <Link
+              href="/quiz"
+              className="text-white font-['Jost',sans-serif] font-medium text-sm hover:text-[#FFD700] transition-colors"
+            >
+              Take Quiz
+            </Link>
+            <Link
+              href="/soul-cultivation"
+              className="text-white font-['Jost',sans-serif] font-medium text-sm hover:text-[#FFD700] transition-colors"
+            >
+              The Bridge
+            </Link>
+          </nav>
         </div>
       </div>
     </header>
