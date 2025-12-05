@@ -216,6 +216,45 @@ button:hover,
   }
 }
 
+/* Pathway cards - 3 columns on tablet/desktop */
+.pathway-cards {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .pathway-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+}
+
+/* Mobile: minimized cards in a row */
+@media (max-width: 767px) {
+  .pathway-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+  }
+  
+  .pathway-cards .card {
+    padding: var(--space-2);
+  }
+  
+  .pathway-cards .card h3 {
+    font-size: 0.875rem !important;
+  }
+  
+  .pathway-cards .card p {
+    font-size: 0.625rem !important;
+  }
+  
+  .pathway-cards .card > div > div:first-child {
+    font-size: 1.5rem !important;
+    margin-bottom: var(--space-1) !important;
+  }
+}
+
 /* Button styles matching homepage */
 .btn-primary {
   background-color: var(--teal);

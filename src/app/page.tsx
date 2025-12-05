@@ -164,7 +164,7 @@ export default function HomePage() {
                 </p>
 
                 {/* Three Pathway Cards */}
-                <div className="grid-cards" style={{ marginBottom: 'var(--space-5)' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 'var(--space-4)', marginBottom: 'var(--space-5)' }} className="pathway-cards">
                   {/* Left Path - Material */}
                   <button 
                     onClick={() => setSelectedPath('material')}
