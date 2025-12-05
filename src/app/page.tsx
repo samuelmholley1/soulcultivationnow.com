@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { SiteNavigation } from '@/components/SiteNavigation';
 import { SiteFooterContent } from '@/components/SiteFooterContent';
 
-type PathwayType = 'material' | 'bridge' | 'soul' | null;
+type PathwayType = 'material' | 'bridge' | 'soul';
 
 export default function HomePage() {
-  const [selectedPath, setSelectedPath] = useState<PathwayType>(null);
+  const [selectedPath, setSelectedPath] = useState<PathwayType>('bridge');
 
   const pathways = {
     material: {
@@ -36,14 +36,6 @@ export default function HomePage() {
           <p style={{ marginBottom: 'var(--space-4)' }}>
             This path is ideal for those who value academic rigor and want to understand the "how" and "why" behind healing practices. It provides the intellectual framework that supports deeper transformation.
           </p>
-
-          <button 
-            onClick={() => setSelectedPath(null)}
-            className="inline-block bg-[#4682B4] text-white font-['Jost',sans-serif] font-medium rounded-lg hover:bg-[#3a6d99] transition-all duration-300"
-            style={{ padding: '0.75rem 1.5rem', fontSize: 'clamp(0.875rem, 2vw, 1rem)' }}
-          >
-            ← Back to Fork in Road
-          </button>
         </div>
       )
     },
@@ -79,14 +71,6 @@ export default function HomePage() {
           <p style={{ marginBottom: 'var(--space-4)' }}>
             This path includes breathwork, somatic practices, Dagara cosmology, and psychology—all woven together. If you&apos;re done with spiritual bypassing AND scientific reductionism, this is your path.
           </p>
-
-          <button 
-            onClick={() => setSelectedPath(null)}
-            className="inline-block bg-[#427d78] text-white font-['Jost',sans-serif] font-medium rounded-lg hover:bg-[#5eb3a1] transition-all duration-300"
-            style={{ padding: '0.75rem 1.5rem', fontSize: 'clamp(0.875rem, 2vw, 1rem)' }}
-          >
-            ← Back to Fork in Road
-          </button>
         </div>
       )
     },
@@ -119,14 +103,6 @@ export default function HomePage() {
           <p style={{ marginBottom: 'var(--space-4)' }}>
             This path is for those who trust their intuition, who know there&apos;s more to reality than what can be measured. If you&apos;re called to ceremony, to ritual, to the medicine of the natural world—this is your path.
           </p>
-
-          <button 
-            onClick={() => setSelectedPath(null)}
-            className="inline-block bg-[#967BB6] text-white font-['Jost',sans-serif] font-medium rounded-lg hover:bg-[#7d62a0] transition-all duration-300"
-            style={{ padding: '0.75rem 1.5rem', fontSize: 'clamp(0.875rem, 2vw, 1rem)' }}
-          >
-            ← Back to Fork in Road
-          </button>
         </div>
       )
     }
@@ -153,85 +129,69 @@ export default function HomePage() {
 
           {/* The Fork - Three Pathways */}
           <div style={{ marginBottom: 'var(--space-5)' }}>
-            {!selectedPath ? (
-              <>
-                <h2 className="font-['Jost',sans-serif] font-bold text-[#427d78] text-center" style={{ marginBottom: 'var(--space-4)', lineHeight: '1.2', fontSize: 'clamp(1.75rem, 4vw, 2.5rem)' }}>
-                  Choose Your Path
-                </h2>
-                <p className="font-['Bitter',serif] text-[#666] text-center" style={{ marginBottom: 'var(--space-5)', maxWidth: '800px', marginInline: 'auto', lineHeight: '1.6', fontSize: 'clamp(0.875rem, 2.5vw, 1.125rem)' }}>
-                  Whether you seek academic understanding, spiritual practice, or the integrated approach,
-                  your journey to flow begins here.
-                </p>
+            <h2 className="font-['Jost',sans-serif] font-bold text-[#427d78] text-center" style={{ marginBottom: 'var(--space-4)', lineHeight: '1.2', fontSize: 'clamp(1.75rem, 4vw, 2.5rem)' }}>
+              Choose Your Path
+            </h2>
+            <p className="font-['Bitter',serif] text-[#666] text-center" style={{ marginBottom: 'var(--space-5)', maxWidth: '800px', marginInline: 'auto', lineHeight: '1.6', fontSize: 'clamp(0.875rem, 2.5vw, 1.125rem)' }}>
+              Whether you seek academic understanding, spiritual practice, or the integrated approach,
+              your journey to flow begins here.
+            </p>
 
-                {/* Three Pathway Cards */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 'var(--space-4)', marginBottom: 'var(--space-5)' }} className="pathway-cards">
-                  {/* Left Path - Material */}
-                  <button 
-                    onClick={() => setSelectedPath('material')}
-                    className="card group hover:border-[#4682B4] hover:shadow-lg transition-all duration-300 text-left cursor-pointer"
-                  >
-                    <div style={{ textAlign: 'center', padding: 'var(--space-4)' }}>
-                      <div style={{ fontSize: '3rem', marginBottom: 'var(--space-3)' }}>📚</div>
-                      <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78] group-hover:text-[#4682B4]" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', lineHeight: '1.2' }}>
-                        The Material Path
-                      </h3>
-                      <p className="font-['Bitter',serif] text-[#666]" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(0.875rem, 2vw, 1rem)', lineHeight: '1.4' }}>
-                        Social Work • Research • Psychology
-                      </p>
-                      <p className="font-['Bitter',serif] text-[#6B7280]" style={{ fontSize: 'clamp(0.75rem, 1.8vw, 0.875rem)', lineHeight: '1.5' }}>
-                        Grounded in Master&apos;s level training, backed by sociology and behavioral science. The academic foundation.
-                      </p>
-                    </div>
-                  </button>
+            {/* Category Buttons */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              <button
+                onClick={() => setSelectedPath('material')}
+                className={`p-6 rounded-lg border-2 transition-all duration-200 ${
+                  selectedPath === 'material'
+                    ? 'bg-[#4682B4] text-white border-[#4682B4] shadow-lg transform scale-105'
+                    : 'bg-white text-[#427d78] border-[#4682B4] hover:bg-[#4682B4]/10'
+                }`}
+              >
+                <div className="text-4xl mb-2">📚</div>
+                <h3 className="text-xl font-['Jost',sans-serif] font-bold">The Material Path</h3>
+              </button>
 
-                  {/* Middle Path - Bridge (RECOMMENDED) */}
-                  <button 
-                    onClick={() => setSelectedPath('bridge')}
-                    className="card relative border-4 border-[#427d78] bg-gradient-to-br from-[#427d78] to-[#967BB6] hover:shadow-xl transition-all duration-300 text-left cursor-pointer"
-                    style={{ minHeight: '100%' }}
-                  >
-                    <div className="absolute -top-3 -right-3 bg-[#FFD700] text-[#000] font-['Jost',sans-serif] font-bold rounded-full shadow-md" style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}>
-                      RECOMMENDED
-                    </div>
-                    <div style={{ textAlign: 'center', padding: 'var(--space-4)', color: 'white' }}>
-                      <div style={{ fontSize: '3rem', marginBottom: 'var(--space-3)' }}>🌊</div>
-                      <h3 className="font-['Jost',sans-serif] font-bold" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', lineHeight: '1.2' }}>
-                        The Bridge
-                      </h3>
-                      <p className="font-['Bitter',serif] font-medium" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(0.875rem, 2vw, 1rem)', lineHeight: '1.4' }}>
-                        Soul Cultivation • Integration • Flow
-                      </p>
-                      <p className="font-['Bitter',serif]" style={{ fontSize: 'clamp(0.75rem, 1.8vw, 0.875rem)', lineHeight: '1.5', opacity: 0.95 }}>
-                        Where ancient wisdom meets modern psychology. Move from trauma to flow. Align your Three Brains. This is the integrated path.
-                      </p>
-                    </div>
-                  </button>
-
-                  {/* Right Path - Soul */}
-                  <button 
-                    onClick={() => setSelectedPath('soul')}
-                    className="card group hover:border-[#967BB6] hover:shadow-lg transition-all duration-300 text-left cursor-pointer"
-                  >
-                    <div style={{ textAlign: 'center', padding: 'var(--space-4)' }}>
-                      <div style={{ fontSize: '3rem', marginBottom: 'var(--space-3)' }}>🕊️</div>
-                      <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78] group-hover:text-[#967BB6]" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', lineHeight: '1.2' }}>
-                        The Soul Path
-                      </h3>
-                      <p className="font-['Bitter',serif] text-[#666]" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(0.875rem, 2vw, 1rem)', lineHeight: '1.4' }}>
-                        Rituals • Energy • Shamanic Practice
-                      </p>
-                      <p className="font-['Bitter',serif] text-[#6B7280]" style={{ fontSize: 'clamp(0.75rem, 1.8vw, 0.875rem)', lineHeight: '1.5' }}>
-                        Blue Heron lineage. Dagara cosmology. Water cleansing, grief rituals, and space clearing. The energetic foundation.
-                      </p>
-                    </div>
-                  </button>
+              <button
+                onClick={() => setSelectedPath('bridge')}
+                className={`p-6 rounded-lg border-2 transition-all duration-200 relative ${
+                  selectedPath === 'bridge'
+                    ? 'bg-gradient-to-br from-[#427d78] to-[#967BB6] text-white border-[#427d78] shadow-lg transform scale-105'
+                    : 'bg-white text-[#427d78] border-[#427d78] hover:bg-[#427d78]/10'
+                }`}
+              >
+                <div className="absolute -top-2 -right-2 bg-[#FFD700] text-[#000] font-['Jost',sans-serif] font-bold rounded-full shadow-md px-2 py-1 text-xs">
+                  RECOMMENDED
                 </div>
-              </>
-            ) : (
-              <div className="card" style={{ padding: 'var(--space-5)', maxWidth: '900px', marginInline: 'auto' }}>
-                {pathways[selectedPath].fullContent}
+                <div className="text-4xl mb-2">🌊</div>
+                <h3 className="text-xl font-['Jost',sans-serif] font-bold">The Bridge</h3>
+              </button>
+
+              <button
+                onClick={() => setSelectedPath('soul')}
+                className={`p-6 rounded-lg border-2 transition-all duration-200 ${
+                  selectedPath === 'soul'
+                    ? 'bg-[#967BB6] text-white border-[#967BB6] shadow-lg transform scale-105'
+                    : 'bg-white text-[#427d78] border-[#967BB6] hover:bg-[#967BB6]/10'
+                }`}
+              >
+                <div className="text-4xl mb-2">🕊️</div>
+                <h3 className="text-xl font-['Jost',sans-serif] font-bold">The Soul Path</h3>
+              </button>
+            </div>
+
+            {/* Service Details */}
+            <div className="bg-white rounded-lg shadow-lg border-2 border-[#427d78] p-8" style={{ minHeight: '400px' }}>
+              <div className="mb-6">
+                <h3 className="text-2xl font-['Jost',sans-serif] font-bold mb-2" style={{ color: pathways[selectedPath].color }}>
+                  {pathways[selectedPath].title}
+                </h3>
+                <p className="text-lg font-['Bitter',serif]" style={{ color: '#666' }}>
+                  {pathways[selectedPath].subtitle}
+                </p>
               </div>
-            )}
+
+              {pathways[selectedPath].fullContent}
+            </div>
           </div>
 
           {/* Quiz CTA */}
