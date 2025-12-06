@@ -38,6 +38,22 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="preconnect" href="https://www.zeffy.com" crossOrigin="" />
+        <script dangerouslySetInnerHTML={{ __html: `
+          // Unregister all service workers (cache buster)
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+              for(let registration of registrations) {
+                registration.unregister();
+              }
+            });
+          }
+          // Clear all caches
+          if ('caches' in window) {
+            caches.keys().then(function(names) {
+              for (let name of names) caches.delete(name);
+            });
+          }
+        `}} />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
         <ToastProvider>
