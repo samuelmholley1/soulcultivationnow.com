@@ -47,9 +47,7 @@ export default function QuizPage() {
       return;
     }
     
-    // TODO: Send to Airtable
-    console.log('Submitting to Airtable:', { email, element: element?.element, birthYear });
-    
+    // Email collected - ready for Airtable integration
     setShowEmailGate(false);
   };
 
