@@ -4,18 +4,18 @@ import { ToastProvider } from '@/components/Toast';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://memberships.ukiahseniorcenter.org'),
-  title: "Membership - Ukiah Senior Center",
-  description: "Become a member of the Ukiah Senior Center. Join over 500 active members supporting our mission to enhance quality of life for seniors.",
+  metadataBase: new URL('https://soulcultivationnow.com'),
+  title: "Soul Cultivation - Guided Pathways to Personal Growth",
+  description: "Discover your path to spiritual growth and personal development. Choose from healing, spiritual awakening, ancestral wisdom, or holistic health journeys.",
   openGraph: {
-    title: "Membership - Ukiah Senior Center",
-    description: "Become a member of the Ukiah Senior Center. Join over 500 active members supporting our mission to enhance quality of life for seniors.",
+    title: "Soul Cultivation - Guided Pathways to Personal Growth",
+    description: "Discover your path to spiritual growth and personal development. Choose from healing, spiritual awakening, ancestral wisdom, or holistic health journeys.",
     images: [{ url: '/logo.png', width: 500, height: 500 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Membership - Ukiah Senior Center",
-    description: "Become a member of the Ukiah Senior Center. Join over 500 active members supporting our mission to enhance quality of life for seniors.",
+    title: "Soul Cultivation - Guided Pathways to Personal Growth",
+    description: "Discover your path to spiritual growth and personal development. Choose from healing, spiritual awakening, ancestral wisdom, or holistic health journeys.",
     images: ['/logo.png'],
   },
   manifest: '/site.webmanifest',

@@ -3,9 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Soul Cultivation Design System (Base: Ukiah Senior Center + Lavender Accent) */
+/* Soul Cultivation Design System */
 :root {
-  /* Primary Colors (Ukiah Teal Base) */
+  /* Primary Colors (Teal Base) */
   --teal: #427d78;
   --tealHover: #5eb3a1;
   --tealDark: #25686A;
@@ -70,7 +70,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Increase base font size for better senior readability */
+/* Increase base font size for better readability */
 @media (min-width: 768px) {
   html {
     font-size: 19px;
@@ -116,7 +116,7 @@ p {
   line-height: 1.8;
 }
 
-/* Improve link visibility for seniors */
+/* Improve link visibility */
 a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
