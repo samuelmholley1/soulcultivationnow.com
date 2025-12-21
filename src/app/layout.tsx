@@ -10,13 +10,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Soul Cultivation - Guided Pathways to Personal Growth",
     description: "Discover your path to spiritual growth and personal development. Choose from healing, spiritual awakening, ancestral wisdom, or holistic health journeys.",
-    images: [{ url: '/logo.png', width: 500, height: 500 }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Soul Cultivation Logo' }],
+    type: 'website',
+    siteName: 'Soul Cultivation',
   },
   twitter: {
     card: 'summary_large_image',
     title: "Soul Cultivation - Guided Pathways to Personal Growth",
     description: "Discover your path to spiritual growth and personal development. Choose from healing, spiritual awakening, ancestral wisdom, or holistic health journeys.",
-    images: ['/logo.png'],
+    images: ['/og-image.png'],
   },
   manifest: '/site.webmanifest',
   icons: {

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function SiteFooterContent() {
   return (
@@ -7,7 +8,10 @@ export function SiteFooterContent() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4" style={{ gap: 'var(--space-4)' }}>
           {/* About Soul Cultivation */}
           <div>
-            <h2 className="text-sm font-['Jost',sans-serif] font-bold text-[#427d78] mb-2">Soul Cultivation</h2>
+            <div className="flex items-center gap-2 mb-3">
+              <Image src="/logo.png" alt="Soul Cultivation" width={32} height={32} className="rounded-full" />
+              <h2 className="text-sm font-['Jost',sans-serif] font-bold text-[#427d78]">Soul Cultivation</h2>
+            </div>
             <p className="text-[#666] font-['Bitter',serif] text-xs leading-relaxed">
               <strong className="text-black">Scott Sherman</strong><br />
               The Mendocino Alchemist<br />

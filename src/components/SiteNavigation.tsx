@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function SiteNavigation() {
   return (
@@ -9,8 +10,15 @@ export function SiteNavigation() {
         <div className="flex items-center justify-between py-4">
           {/* Logo - Soul Cultivation */}
           <Link href="/" className="shrink-0 hover:opacity-80 transition-opacity flex items-center gap-3">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center text-2xl md:text-3xl">
-              🌊
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center overflow-hidden">
+              <Image 
+                src="/logo.png" 
+                alt="Soul Cultivation Logo" 
+                width={64} 
+                height={64}
+                className="w-full h-full object-contain"
+                priority
+              />
             </div>
             <div className="text-white">
               <div className="font-['Jost',sans-serif] font-bold text-lg md:text-xl leading-tight">Soul Cultivation</div>
