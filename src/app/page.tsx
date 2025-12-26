@@ -140,6 +140,22 @@ export default function HomePage() {
             </p>
           </div>
 
+          {/* Kafka Poem - Learn To Be Quiet */}
+          <div className="bg-white rounded-lg shadow-md border-l-4 border-[#427d78]" style={{ padding: 'var(--space-5)', marginBottom: 'var(--space-5)', maxWidth: '700px', marginInline: 'auto' }}>
+            <p className="font-['Bitter',serif] italic text-[#666] text-center" style={{ fontSize: 'clamp(1rem, 2.5vw, 1.125rem)', lineHeight: '1.9', marginBottom: 'var(--space-2)' }}>
+              You need not do anything.<br />
+              Remain sitting at your table and listen.<br />
+              You need not even listen, just wait.<br />
+              You need not even wait,<br />
+              just learn to be quiet, still and solitary.<br />
+              And the world will freely offer itself to you unmasked.<br />
+              It has no choice, it will roll in ecstasy at your feet.
+            </p>
+            <p className="font-['Jost',sans-serif] text-[#427d78] text-right text-sm" style={{ marginTop: 'var(--space-2)' }}>
+              — Franz Kafka
+            </p>
+          </div>
+
           {/* The Fork - Three Pathways */}
           <div style={{ marginBottom: 'var(--space-5)' }}>
             <h2 className="font-['Jost',sans-serif] font-bold text-[#427d78] text-center" style={{ marginBottom: 'var(--space-4)', lineHeight: '1.2', fontSize: 'clamp(1.75rem, 4vw, 2.5rem)' }}>
