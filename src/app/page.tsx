@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { SiteNavigation } from '@/components/SiteNavigation';
 import { SiteFooterContent } from '@/components/SiteFooterContent';
 
@@ -51,6 +52,18 @@ export default function HomePage() {
           <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: 'var(--space-4)' }}>
             The Bridge: Integration & Flow <span className="inline-block bg-[#FFD700] text-[#000] rounded-full text-xs font-bold" style={{ padding: '0.25rem 0.5rem', marginLeft: '0.5rem' }}>RECOMMENDED</span>
           </h3>
+
+          <div style={{ marginBottom: 'var(--space-4)' }}>
+            <Image
+              src="/images/bridge.png"
+              alt="Bridge connecting city and nature - integration of material and spiritual paths"
+              width={1200}
+              height={400}
+              className="w-full rounded-lg shadow-md"
+              style={{ objectFit: 'cover' }}
+              priority
+            />
+          </div>
           
           <p style={{ marginBottom: 'var(--space-3)' }}>
             <strong>Soul Cultivation:</strong> This is where the magic happens. The Bridge integrates academic rigor with shamanic wisdom, creating a holistic path to flow state living.
