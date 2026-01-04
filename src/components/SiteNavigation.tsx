@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { ContactModal } from './ContactModal';
 
 export function SiteNavigation() {
   return (
@@ -40,6 +41,9 @@ export function SiteNavigation() {
             >
               The Bridge
             </Link>
+            <div className="text-white font-['Jost',sans-serif] font-medium text-sm hover:text-[#FFD700] transition-colors">
+              <ContactModal />
+            </div>
           </nav>
         </div>
       </div>
