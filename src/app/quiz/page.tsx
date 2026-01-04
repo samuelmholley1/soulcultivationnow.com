@@ -1,54 +1,76 @@
 'use client';
 
-import { useState } from 'react';
-import { calculateDagaraElement, type ElementData, isValidBirthYear } from '@/lib/dagara';
-import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import { SiteNavigation } from '@/components/SiteNavigation';
 import { SiteFooterContent } from '@/components/SiteFooterContent';
+import { MedicineWheel } from '@/components/MedicineWheel';
+import { InfluenceTable } from '@/components/InfluenceTable';
+import { 
+  calculateDigitFrequency, 
+  mapToMedicineWheel, 
+  getDominantElement,
+  getEnergyBalance,
+  type WheelData 
+} from '@/lib/medicineWheel';
 
 export default function QuizPage() {
-  const [birthYear, setBirthYear] = useState('');
-  const [element, setElement] = useState<ElementData | null>(null);
-  const [showEmailGate, setShowEmailGate] = useState(false);
-  const [email, setEmail] = useState('');
-  const [isCalculating, setIsCalculating] = useState(false);
-  const [error, setError] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [digitCounts, setDigitCounts] = useState<number[]>(new Array(10).fill(0));
+  const [wheelData, setWheelData] = useState<WheelData>({
+    water: 0,
+    nature: 0,
+    fire: 0,
+    mineral: 0,
+    earth: 0,
+  });
+  const [showResults, setShowResults] = useState(false);
 
-  const handleCalculate = () => {
-    const year = parseInt(birthYear, 10);
-    
-    if (!birthYear || isNaN(year)) {
-      setError('Please enter your birth year');
-      return;
+  // Real-time calculation as user types
+  useEffect(() => {
+    if (fullName || birthDate) {
+      const counts = calculateDigitFrequency(fullName, birthDate);
+      const wheel = mapToMedicineWheel(counts);
+      
+      setDigitCounts(counts);
+      setWheelData(wheel);
+      setShowResults(fullName.trim().length > 0 && birthDate.trim().length > 0);
+    } else {
+      setShowResults(false);
     }
-    
-    if (!isValidBirthYear(year)) {
-      setError('Please enter a valid birth year between 1900 and now');
-      return;
-    }
-    
-    setError('');
-    setIsCalculating(true);
-    
-    // Simulate toroidal animation delay
-    setTimeout(() => {
-      const result = calculateDagaraElement(year);
-      setElement(result);
-      setIsCalculating(false);
-      setShowEmailGate(true);
-    }, 2000);
-  };
+  }, [fullName, birthDate]);
 
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!email || !email.includes('@')) {
-      setError('Please enter a valid email address');
-      return;
+  const dominantElement = getDominantElement(wheelData);
+  const energyBalance = getEnergyBalance(digitCounts);
+  const totalDigits = digitCounts.reduce((sum, count) => sum + count, 0);
+
+  // Element descriptions
+  const elementDescriptions: Record<string, { bird: string; description: string; color: string }> = {
+    Water: {
+      bird: 'Blue Heron',
+      description: 'Reconciliation, healing, emotional cleansing. You carry the medicine of forgiveness and flow. Your path is to help others release what no longer serves them.',
+      color: '#4299E1'
+    },
+    Nature: {
+      bird: 'Flicker (Woodpecker)',
+      description: 'Growth, change, and the magic of the natural world. You are the scout who flies ahead, showing others the path. Your medicine is transformation and renewal.',
+      color: '#48BB78'
+    },
+    Fire: {
+      bird: 'Red-Tailed Hawk',
+      description: 'Vision, passion, and ancestral connection. You see what others cannot, bridging the present and the past. Your medicine is truth-telling and clarity.',
+      color: '#F56565'
+    },
+    Mineral: {
+      bird: 'Raven',
+      description: 'Memory, structure, and deep wisdom. You carry the stories and knowledge that ground communities. Your medicine is remembrance and foundation.',
+      color: '#A0AEC0'
+    },
+    Earth: {
+      bird: 'Owl',
+      description: 'Home, nurturing, and grounded wisdom. You create sacred space where others can heal. Your medicine is sanctuary and deep listening.',
+      color: '#D69E2E'
     }
-    
-    // Email collected - ready for Airtable integration
-    setShowEmailGate(false);
   };
 
   return (
@@ -56,203 +78,215 @@ export default function QuizPage() {
       <SiteNavigation />
       
       <div className="bg-[#fafbff]" style={{ paddingBlock: 'var(--space-6)' }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1200px' }}>
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: 'var(--space-5)' }}>
             <h1 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-3)', lineHeight: '1.1', fontSize: 'clamp(2rem, 6vw, 3rem)' }}>
-              Dagara Numerology Quiz
+              Dagara Medicine Wheel
             </h1>
             <p className="font-['Bitter',serif] text-[#666]" style={{ maxWidth: '800px', marginInline: 'auto', lineHeight: '1.6', fontSize: 'clamp(0.875rem, 2.5vw, 1.125rem)' }}>
-              Discover your elemental energy and spirit bird guide through the ancient Dagara Base 5 system.
+              Discover your elemental energies and spirit bird guide through ancient Dagara numerology.
+              Enter your information and watch your medicine wheel come alive.
             </p>
           </div>
 
-          {/* Quiz Card */}
-          <div className="card" style={{ maxWidth: '800px', marginInline: 'auto' }}>
-            {!element ? (
-              /* Input Stage */
-              <div style={{ textAlign: 'center', padding: 'var(--space-4)' }}>
-                <div style={{ marginBottom: 'var(--space-4)' }}>
-                  <div style={{ fontSize: '4rem', marginBottom: 'var(--space-3)' }}>🌀</div>
-                  <h2 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(1.5rem, 4vw, 2rem)' }}>
-                    Enter Your Birth Year
-                  </h2>
-                  <p className="font-['Bitter',serif] text-[#666]" style={{ fontSize: 'clamp(0.875rem, 2vw, 1rem)' }}>
-                    The universe speaks through numbers. Let&apos;s find your element.
-                  </p>
-                </div>
-
-                <input
-                  type="number"
-                  value={birthYear}
-                  onChange={(e) => setBirthYear(e.target.value)}
-                  placeholder="e.g., 1985"
-                  disabled={isCalculating}
-                  className="font-['Jost',sans-serif] font-bold"
-                  style={{ 
-                    width: '100%', 
-                    maxWidth: '300px', 
-                    textAlign: 'center', 
-                    fontSize: '2rem', 
-                    padding: 'var(--space-3)', 
-                    borderRadius: 'var(--radius)', 
-                    border: '2px solid var(--border)',
-                    marginBottom: 'var(--space-4)'
-                  }}
-                  onKeyDown={(e) => e.key === 'Enter' && handleCalculate()}
-                />
-
-                {error && (
-                  <p className="font-['Bitter',serif]" style={{ color: '#EF4444', marginBottom: 'var(--space-3)', fontSize: '0.875rem' }}>{error}</p>
-                )}
-
-                <button
-                  onClick={handleCalculate}
-                  disabled={isCalculating}
-                  className="font-['Jost',sans-serif] font-bold bg-gradient-to-r from-[#427d78] to-[#4682B4] text-white rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300 disabled:opacity-50"
-                  style={{ padding: '1rem 2rem', fontSize: '1.125rem' }}
+          {/* Input Form Card */}
+          <div className="card" style={{ maxWidth: '800px', marginInline: 'auto', marginBottom: 'var(--space-5)' }}>
+            <h2 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-4)', fontSize: 'clamp(1.5rem, 4vw, 2rem)' }}>
+              Your Information
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Full Name Input */}
+              <div>
+                <label 
+                  htmlFor="fullName" 
+                  className="font-['Jost',sans-serif] font-medium text-[#374151] block mb-2"
                 >
-                  {isCalculating ? 'Calculating...' : 'Reveal My Element'}
-                </button>
+                  Full Birth Name
+                </label>
+                <input
+                  id="fullName"
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="e.g., John Michael Smith"
+                  className="font-['Bitter',serif] w-full p-3 rounded-lg border-2 border-[#E2E8F0] focus:border-[#427d78] focus:outline-none transition-colors"
+                  style={{ fontSize: '1rem' }}
+                />
+                <p className="font-['Bitter',serif] text-sm text-gray-500 mt-1">
+                  Your full name as it appears on your birth certificate
+                </p>
+              </div>
 
-                {isCalculating && (
-                  <div style={{ marginTop: 'var(--space-4)' }}>
-                    <div className="animate-spin" style={{ width: '4rem', height: '4rem', border: '4px solid var(--teal)', borderTopColor: 'transparent', borderRadius: '50%', marginInline: 'auto' }}></div>
-                    <p className="font-['Bitter',serif] text-[#6B7280]" style={{ marginTop: 'var(--space-3)' }}>
-                      Spinning the toroidal field...
+              {/* Birth Date Input */}
+              <div>
+                <label 
+                  htmlFor="birthDate" 
+                  className="font-['Jost',sans-serif] font-medium text-[#374151] block mb-2"
+                >
+                  Birth Date
+                </label>
+                <input
+                  id="birthDate"
+                  type="text"
+                  value={birthDate}
+                  onChange={(e) => setBirthDate(e.target.value)}
+                  placeholder="MM/DD/YYYY or M/D/YY"
+                  className="font-['Bitter',serif] w-full p-3 rounded-lg border-2 border-[#E2E8F0] focus:border-[#427d78] focus:outline-none transition-colors"
+                  style={{ fontSize: '1rem' }}
+                />
+                <p className="font-['Bitter',serif] text-sm text-gray-500 mt-1">
+                  Example: 7/23/1985 or 07/23/85
+                </p>
+              </div>
+            </div>
+
+            {/* How It Works */}
+            <div className="mt-6 p-4 bg-[#427d78]/5 rounded-lg border-l-4 border-[#427d78]">
+              <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78] mb-2">
+                How It Works
+              </h3>
+              <p className="font-['Bitter',serif] text-sm text-[#666] leading-relaxed">
+                Each letter of your name converts to a number (A=1, Z=26), then reduces to a single digit.
+                Combined with your birth date digits, these numbers map to the five elements of the Dagara cosmology:
+                <strong> Water (1,6)</strong>, <strong>Fire (2,7)</strong>, <strong>Nature (3,8)</strong>,
+                <strong> Mineral (4,9)</strong>, and <strong>Earth (0,5)</strong>.
+              </p>
+            </div>
+          </div>
+
+          {/* Results Section */}
+          {showResults && (
+            <>
+              {/* Medicine Wheel Visualization */}
+              <div className="card" style={{ marginBottom: 'var(--space-5)' }}>
+                <h2 className="font-['Jost',sans-serif] font-bold text-[#427d78] text-center" style={{ marginBottom: 'var(--space-4)', fontSize: 'clamp(1.5rem, 4vw, 2rem)' }}>
+                  Your Medicine Wheel
+                </h2>
+                <MedicineWheel data={wheelData} />
+                
+                {/* Quick Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                  <div className="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+                    <div className="font-['Jost',sans-serif] text-sm font-medium text-blue-600 mb-1">
+                      Dominant Element
+                    </div>
+                    <div className="font-['Jost',sans-serif] text-2xl font-bold" style={{ color: elementDescriptions[dominantElement.element]?.color }}>
+                      {dominantElement.element}
+                    </div>
+                    <div className="font-['Bitter',serif] text-sm text-gray-600">
+                      {dominantElement.count} occurrences
+                    </div>
+                  </div>
+                  
+                  <div className="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+                    <div className="font-['Jost',sans-serif] text-sm font-medium text-blue-600 mb-1">
+                      Masculine Energy
+                    </div>
+                    <div className="font-['Jost',sans-serif] text-2xl font-bold text-[#4682B4]">
+                      {energyBalance.masculine}
+                    </div>
+                    <div className="font-['Bitter',serif] text-sm text-gray-600">
+                      {totalDigits > 0 ? Math.round((energyBalance.masculine / totalDigits) * 100) : 0}% of total
+                    </div>
+                  </div>
+                  
+                  <div className="text-center p-4 bg-purple-50 rounded-lg border-2 border-purple-200">
+                    <div className="font-['Jost',sans-serif] text-sm font-medium text-purple-600 mb-1">
+                      Feminine Energy
+                    </div>
+                    <div className="font-['Jost',sans-serif] text-2xl font-bold text-[#967BB6]">
+                      {energyBalance.feminine}
+                    </div>
+                    <div className="font-['Bitter',serif] text-sm text-gray-600">
+                      {totalDigits > 0 ? Math.round((energyBalance.feminine / totalDigits) * 100) : 0}% of total
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Influence Table */}
+              <div className="card" style={{ marginBottom: 'var(--space-5)' }}>
+                <h2 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-4)', fontSize: 'clamp(1.5rem, 4vw, 2rem)' }}>
+                  Elemental Influences
+                </h2>
+                <InfluenceTable digitCounts={digitCounts} />
+              </div>
+
+              {/* Spirit Bird & Interpretation */}
+              {dominantElement.count > 0 && (
+                <div className="card" style={{ background: `linear-gradient(135deg, ${elementDescriptions[dominantElement.element]?.color}15 0%, #ffffff 100%)`, border: `2px solid ${elementDescriptions[dominantElement.element]?.color}40` }}>
+                  <div className="text-center mb-4">
+                    <h2 className="font-['Jost',sans-serif] font-bold" style={{ color: elementDescriptions[dominantElement.element]?.color, fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', marginBottom: 'var(--space-2)' }}>
+                      Your Spirit Bird: {elementDescriptions[dominantElement.element]?.bird}
+                    </h2>
+                    <p className="font-['Jost',sans-serif] text-lg text-gray-600">
+                      Primary Element: {dominantElement.element}
                     </p>
                   </div>
-                )}
-              </div>
-            ) : showEmailGate ? (
-              /* Email Gate */
-              <div style={{ textAlign: 'center', padding: 'var(--space-4)' }}>
-                <div style={{ fontSize: '4rem', marginBottom: 'var(--space-3)' }}>
-                  {element.bird === 'Flicker' ? '🔥' : element.bird === 'Blue Heron' ? '🕊️' : element.bird === 'Egret' ? '🦢' : element.bird === 'Wind Eagle' ? '🦅' : '🐦'}
+                  
+                  <p className="font-['Bitter',serif] text-[#374151] leading-relaxed" style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', lineHeight: '1.8' }}>
+                    {elementDescriptions[dominantElement.element]?.description}
+                  </p>
+
+                  <div className="mt-6 p-4 bg-white/80 rounded-lg">
+                    <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78] mb-3">
+                      Your Elemental Profile
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 font-['Bitter',serif] text-sm">
+                      <div>
+                        <strong className="text-[#4299E1]">Water ({wheelData.water}):</strong> Emotional healing & reconciliation
+                      </div>
+                      <div>
+                        <strong className="text-[#48BB78]">Nature ({wheelData.nature}):</strong> Growth & transformation
+                      </div>
+                      <div>
+                        <strong className="text-[#F56565]">Fire ({wheelData.fire}):</strong> Vision & ancestral wisdom
+                      </div>
+                      <div>
+                        <strong className="text-[#A0AEC0]">Mineral ({wheelData.mineral}):</strong> Memory & structure
+                      </div>
+                      <div className="md:col-span-2 text-center">
+                        <strong className="text-[#D69E2E]">Earth ({wheelData.earth}):</strong> Home & sanctuary
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                
-                <h2 className="font-['Jost',sans-serif] font-bold" style={{ marginBottom: 'var(--space-3)', fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', color: element.color }}>
-                  You are {element.element}
+              )}
+
+              {/* CTA */}
+              <div className="card text-center" style={{ background: 'linear-gradient(135deg, #427d78 0%, #967BB6 100%)', color: 'white', marginTop: 'var(--space-5)' }}>
+                <h2 className="font-['Jost',sans-serif] font-bold" style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: 'var(--space-3)' }}>
+                  Ready to Dive Deeper?
                 </h2>
-                
-                <p className="font-['Bitter',serif] text-[#666]" style={{ marginBottom: 'var(--space-4)', fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', lineHeight: '1.5' }}>
-                  {element.description}
+                <p className="font-['Bitter',serif]" style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', marginBottom: 'var(--space-4)', opacity: 0.95 }}>
+                  Your medicine wheel reveals your elemental blueprint. Let&apos;s explore how to work with these energies
+                  through Soul Cultivation practices, rituals, and personalized guidance.
                 </p>
-
-                <div className="bg-gradient-to-r from-[#427d78]/10 to-[#967BB6]/10 rounded-lg" style={{ padding: 'var(--space-3)', marginBottom: 'var(--space-4)' }}>
-                  <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-2)' }}>Your Core Traits:</h3>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center' }}>
-                    {element.traits.map((trait) => (
-                      <span key={trait} className="bg-white font-['Bitter',serif] text-[#666] rounded-full shadow-sm" style={{ padding: '0.5rem 1rem', fontSize: '0.875rem', fontWeight: '500' }}>
-                        {trait}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="bg-[#FFD700]/20 border-2 border-[#FFD700] rounded-lg" style={{ padding: 'var(--space-4)', marginBottom: 'var(--space-4)' }}>
-                  <p className="font-['Jost',sans-serif] font-bold text-[#000]" style={{ marginBottom: 'var(--space-2)' }}>🔒 Unlock Your Full Reading</p>
-                  <p className="font-['Bitter',serif] text-[#000]" style={{ fontSize: '0.875rem' }}>
-                    Enter your email to discover your spirit bird ({element.bird}), detailed strengths, 
-                    challenges, and daily balance practices.
-                  </p>
-                </div>
-
-                <form onSubmit={handleEmailSubmit} style={{ marginBottom: 'var(--space-3)' }}>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    required
-                    className="font-['Bitter',serif]"
-                    style={{ 
-                      width: '100%', 
-                      padding: 'var(--space-3)', 
-                      borderRadius: 'var(--radius)', 
-                      border: '2px solid var(--border)',
-                      marginBottom: 'var(--space-3)',
-                      fontSize: '1rem'
-                    }}
-                  />
-                  <button
-                    type="submit"
-                    className="font-['Jost',sans-serif] font-bold bg-gradient-to-r from-[#427d78] to-[#4682B4] text-white rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300"
-                    style={{ width: '100%', padding: '1rem 2rem', fontSize: '1.125rem' }}
-                  >
-                    Get My Full Reading →
-                  </button>
-                </form>
-
-                <p className="font-['Bitter',serif] text-[#6B7280]" style={{ fontSize: '0.75rem' }}>
-                  We&apos;ll send you the full reading + occasional wisdom from Scott Sherman. Unsubscribe anytime.
-                </p>
+                <a
+                  href="mailto:scott@soulcultivationnow.com?subject=Medicine%20Wheel%20Consultation"
+                  className="inline-block bg-white text-[#427d78] font-['Jost',sans-serif] font-bold rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  style={{ padding: '1rem 2rem', fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}
+                >
+                  Schedule a Consultation →
+                </a>
               </div>
-            ) : (
-              /* Full Results */
-              <div style={{ padding: 'var(--space-4)' }}>
-                <div style={{ textAlign: 'center', marginBottom: 'var(--space-5)' }}>
-                  <div style={{ fontSize: '4rem', marginBottom: 'var(--space-3)' }}>
-                    {element.bird === 'Flicker' ? '🔥' : element.bird === 'Blue Heron' ? '🕊️' : element.bird === 'Egret' ? '🦢' : element.bird === 'Wind Eagle' ? '🦅' : '🐦'}
-                  </div>
-                  <h2 className="font-['Jost',sans-serif] font-bold" style={{ marginBottom: 'var(--space-2)', fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', color: element.color }}>
-                    {element.element} - {element.bird}
-                  </h2>
-                  <p className="font-['Bitter',serif] text-[#666] italic">{element.traits.join(' • ')}</p>
-                </div>
+            </>
+          )}
 
-                <div style={{ display: 'grid', gap: 'var(--space-4)' }}>
-                  <div>
-                    <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-2)' }}>✨ Your Essence</h3>
-                    <p className="font-['Bitter',serif] text-[#666]">{element.description}</p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-2)' }}>💪 Your Strengths</h3>
-                    <p className="font-['Bitter',serif] text-[#666]">{element.strengths}</p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-2)' }}>🌊 Growth Edges</h3>
-                    <p className="font-['Bitter',serif] text-[#666]">{element.challenges}</p>
-                  </div>
-
-                  <div className="bg-gradient-to-r from-[#427d78]/10 to-[#967BB6]/10 rounded-lg" style={{ padding: 'var(--space-4)' }}>
-                    <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ marginBottom: 'var(--space-2)' }}>🧘 Daily Balance Practice</h3>
-                    <p className="font-['Bitter',serif] text-[#666]">{element.balancePractice}</p>
-                  </div>
-                </div>
-
-                <div style={{ marginTop: 'var(--space-5)', paddingTop: 'var(--space-4)', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
-                  <p className="font-['Bitter',serif] text-[#666]" style={{ marginBottom: 'var(--space-3)' }}>
-                    Want to go deeper? Explore Soul Cultivation coaching and courses.
-                  </p>
-                  <Link 
-                    href="/soul-cultivation"
-                    className="inline-block font-['Jost',sans-serif] font-bold bg-gradient-to-r from-[#427d78] to-[#4682B4] text-white rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300"
-                    style={{ padding: '0.75rem 1.5rem' }}
-                  >
-                    Explore Soul Cultivation →
-                  </Link>
-                </div>
-
-                <div style={{ marginTop: 'var(--space-4)', textAlign: 'center' }}>
-                  <button
-                    onClick={() => {
-                      setElement(null);
-                      setBirthYear('');
-                      setShowEmailGate(false);
-                      setEmail('');
-                    }}
-                    className="font-['Bitter',serif] text-[#6B7280] hover:text-[#666] transition-colors"
-                    style={{ fontSize: '0.875rem' }}
-                  >
-                    Take quiz again
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+          {/* Empty State */}
+          {!showResults && (
+            <div className="card text-center" style={{ padding: 'var(--space-6)', background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)' }}>
+              <div className="text-6xl mb-4">🌀</div>
+              <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', marginBottom: 'var(--space-2)' }}>
+                Enter Your Information Above
+              </h3>
+              <p className="font-['Bitter',serif] text-[#666]" style={{ maxWidth: '500px', marginInline: 'auto' }}>
+                Your medicine wheel will appear here as you type. Watch the elements come alive with your unique energetic signature.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
