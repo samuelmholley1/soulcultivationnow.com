@@ -43,7 +43,7 @@ export default function HomePage() {
     bridge: {
       title: 'The Bridge',
       subtitle: 'Soul Cultivation • Integration • Flow',
-      emoji: '🌊',
+      emoji: '/images/bridge_icon.png',
       color: '#427d78',
       description: 'Where ancient wisdom meets modern psychology. Move from trauma to flow. Align your Three Brains. This is the integrated path.',
       recommended: true,
@@ -52,18 +52,6 @@ export default function HomePage() {
           <h3 className="font-['Jost',sans-serif] font-bold text-[#427d78]" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: 'var(--space-4)' }}>
             The Bridge: Integration & Flow <span className="inline-block bg-[#FFD700] text-[#000] rounded-full text-xs font-bold" style={{ padding: '0.25rem 0.5rem', marginLeft: '0.5rem' }}>RECOMMENDED</span>
           </h3>
-
-          <div style={{ marginBottom: 'var(--space-4)' }}>
-            <Image
-              src="/images/bridge.png"
-              alt="Bridge connecting city and nature - integration of material and spiritual paths"
-              width={1200}
-              height={400}
-              className="w-full rounded-lg shadow-md"
-              style={{ objectFit: 'cover' }}
-              priority
-            />
-          </div>
           
           <p style={{ marginBottom: 'var(--space-3)' }}>
             <strong>Soul Cultivation:</strong> This is where the magic happens. The Bridge integrates academic rigor with shamanic wisdom, creating a holistic path to flow state living.
@@ -191,7 +179,15 @@ export default function HomePage() {
                 <div className="absolute -top-2 -right-2 bg-[#FFD700] text-[#000] font-['Jost',sans-serif] font-bold rounded-full shadow-md px-2 py-1 text-xs">
                   RECOMMENDED
                 </div>
-                <div className="text-4xl mb-2">🌊</div>
+                <div className="mb-2 flex justify-center">
+                  <Image
+                    src="/images/bridge_icon.png"
+                    alt="Bridge icon"
+                    width={48}
+                    height={48}
+                    className="object-contain"
+                  />
+                </div>
                 <h3 className="text-xl font-['Jost',sans-serif] font-bold">The Bridge</h3>
               </button>
 
