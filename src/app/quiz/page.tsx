@@ -15,6 +15,9 @@ import {
 
 export default function QuizPage() {
   const [fullName, setFullName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [digitCounts, setDigitCounts] = useState<number[]>(new Array(10).fill(0));
   const [wheelData, setWheelData] = useState<WheelData>({
@@ -25,6 +28,8 @@ export default function QuizPage() {
     earth: 0,
   });
   const [showResults, setShowResults] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   // Real-time calculation as user types
   useEffect(() => {
@@ -39,6 +44,50 @@ export default function QuizPage() {
       setShowResults(false);
     }
   }, [fullName, birthDate]);
+
+  const handleSubmit = async () => {
+    if (!email || !firstName || !lastName || !fullName || !birthDate) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/medicine-wheel', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          firstName,
+          lastName,
+          fullName,
+          birthDate,
+          waterCount: wheelData.water,
+          natureCount: wheelData.nature,
+          fireCount: wheelData.fire,
+          mineralCount: wheelData.mineral,
+          earthCount: wheelData.earth,
+          dominantElement: dominantElement.element,
+          spiritBird: elementDescriptions[dominantElement.element]?.bird || '',
+          masculineEnergy: energyBalance.masculine,
+          feminineEnergy: energyBalance.feminine,
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitSuccess(true);
+      } else {
+        throw new Error('Failed to submit');
+      }
+    } catch (error) {
+      console.error('Error submitting data:', error);
+      alert('There was an error saving your results. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const dominantElement = getDominantElement(wheelData);
   const energyBalance = getEnergyBalance(digitCounts);
@@ -97,13 +146,73 @@ export default function QuizPage() {
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Email Input */}
+              <div className="md:col-span-2">
+                <label 
+                  htmlFor="email" 
+                  className="font-['Jost',sans-serif] font-medium text-[#374151] block mb-2"
+                >
+                  Email Address <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  required
+                  className="font-['Bitter',serif] w-full p-3 rounded-lg border-2 border-[#E2E8F0] focus:border-[#427d78] focus:outline-none transition-colors"
+                  style={{ fontSize: '1rem' }}
+                />
+              </div>
+
+              {/* First Name Input */}
+              <div>
+                <label 
+                  htmlFor="firstName" 
+                  className="font-['Jost',sans-serif] font-medium text-[#374151] block mb-2"
+                >
+                  First Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="firstName"
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="John"
+                  required
+                  className="font-['Bitter',serif] w-full p-3 rounded-lg border-2 border-[#E2E8F0] focus:border-[#427d78] focus:outline-none transition-colors"
+                  style={{ fontSize: '1rem' }}
+                />
+              </div>
+
+              {/* Last Name Input */}
+              <div>
+                <label 
+                  htmlFor="lastName" 
+                  className="font-['Jost',sans-serif] font-medium text-[#374151] block mb-2"
+                >
+                  Last Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="lastName"
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Smith"
+                  required
+                  className="font-['Bitter',serif] w-full p-3 rounded-lg border-2 border-[#E2E8F0] focus:border-[#427d78] focus:outline-none transition-colors"
+                  style={{ fontSize: '1rem' }}
+                />
+              </div>
+
               {/* Full Name Input */}
               <div>
                 <label 
                   htmlFor="fullName" 
                   className="font-['Jost',sans-serif] font-medium text-[#374151] block mb-2"
                 >
-                  Full Birth Name
+                  Full Birth Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="fullName"
@@ -111,6 +220,7 @@ export default function QuizPage() {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="e.g., John Michael Smith"
+                  required
                   className="font-['Bitter',serif] w-full p-3 rounded-lg border-2 border-[#E2E8F0] focus:border-[#427d78] focus:outline-none transition-colors"
                   style={{ fontSize: '1rem' }}
                 />
@@ -125,7 +235,7 @@ export default function QuizPage() {
                   htmlFor="birthDate" 
                   className="font-['Jost',sans-serif] font-medium text-[#374151] block mb-2"
                 >
-                  Birth Date
+                  Birth Date <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="birthDate"
@@ -133,6 +243,7 @@ export default function QuizPage() {
                   value={birthDate}
                   onChange={(e) => setBirthDate(e.target.value)}
                   placeholder="MM/DD/YYYY or M/D/YY"
+                  required
                   className="font-['Bitter',serif] w-full p-3 rounded-lg border-2 border-[#E2E8F0] focus:border-[#427d78] focus:outline-none transition-colors"
                   style={{ fontSize: '1rem' }}
                 />
@@ -258,19 +369,33 @@ export default function QuizPage() {
               {/* CTA */}
               <div className="card text-center" style={{ background: 'linear-gradient(135deg, #427d78 0%, #967BB6 100%)', color: 'white', marginTop: 'var(--space-5)' }}>
                 <h2 className="font-['Jost',sans-serif] font-bold" style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: 'var(--space-3)' }}>
-                  Ready to Dive Deeper?
+                  {submitSuccess ? 'Results Saved!' : 'Save Your Results'}
                 </h2>
                 <p className="font-['Bitter',serif]" style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', marginBottom: 'var(--space-4)', opacity: 0.95 }}>
-                  Your medicine wheel reveals your elemental blueprint. Let&apos;s explore how to work with these energies
-                  through Soul Cultivation practices, rituals, and personalized guidance.
+                  {submitSuccess 
+                    ? "Your medicine wheel profile has been saved. We'll send you personalized insights and guidance based on your elemental blueprint."
+                    : "Save your medicine wheel results and receive personalized guidance on working with your elemental energies through Soul Cultivation practices."
+                  }
                 </p>
-                <a
-                  href="mailto:scott@soulcultivationnow.com?subject=Medicine%20Wheel%20Consultation"
-                  className="inline-block bg-white text-[#427d78] font-['Jost',sans-serif] font-bold rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300"
-                  style={{ padding: '1rem 2rem', fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}
-                >
-                  Schedule a Consultation →
-                </a>
+                {!submitSuccess && (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={isSubmitting || !email || !firstName || !lastName || !fullName || !birthDate}
+                    className="inline-block bg-white text-[#427d78] font-['Jost',sans-serif] font-bold rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ padding: '1rem 2rem', fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}
+                  >
+                    {isSubmitting ? 'Saving...' : 'Save My Results →'}
+                  </button>
+                )}
+                {submitSuccess && (
+                  <a
+                    href="mailto:scott@soulcultivationnow.com?subject=Medicine%20Wheel%20Consultation"
+                    className="inline-block bg-white text-[#427d78] font-['Jost',sans-serif] font-bold rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300"
+                    style={{ padding: '1rem 2rem', fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}
+                  >
+                    Schedule a Consultation →
+                  </a>
+                )}
               </div>
             </>
           )}
