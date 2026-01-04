@@ -4,10 +4,11 @@ A Next.js-powered spiritual growth platform offering guided pathways for persona
 
 ## Features
 
-- **Dagara Element Quiz**: Interactive birth year calculator for discovering your Dagara element
-- **Pathway Cards**: Choose-your-own-adventure style guided spiritual journeys
-- **Modern Stack**: Next.js 15, React 18, TypeScript, Tailwind CSS
-- **Airtable Integration**: Ready for data collection and CRM workflows
+- **Medicine Wheel Calculator**: Interactive numerology-based quiz calculating your Dagara element profile from name and birthdate
+- **Pathway Cards**: Three spiritual pathways (Material, Bridge, Soul) with same-page card selection pattern
+- **Contact Form**: Global header CTA for lead capture with motivation field
+- **Airtable CRM**: Automated lead collection with 2 tables (Medicine Wheel submissions + Contact form)
+- **Modern Stack**: Next.js 15.0.5, React 18.3.1, TypeScript 5.5.4, Tailwind CSS 3.4.7
 
 ## Getting Started
 
@@ -37,17 +38,42 @@ yarn build
 yarn start
 ```
 
+## Environment Variables
+
+Create a `.env.local` file with the following variables:
+
+```bash
+AIRTABLE_ACCESS_TOKEN=your_personal_access_token
+AIRTABLE_BASE_ID=appnf33rbeqzbMMex
+AIRTABLE_TABLE_MEDICINE_WHEEL=tblgpw1VHNgR9RBhs
+AIRTABLE_TABLE_CONTACT=tblnxV1FeMexChbIs
+```
+
+See [AIRTABLE_SCHEMA.md](./AIRTABLE_SCHEMA.md) for detailed schema documentation.
+
 ## Project Structure
 
 ```
 src/
-├── app/              # Next.js app router pages
-│   ├── quiz/        # Dagara element quiz
-│   └── page.tsx     # Homepage with pathway cards
-├── components/      # Reusable React components
-├── lib/            # Utilities and helpers
-│   ├── airtable.ts # Airtable API integration
-│   └── dagara.ts   # Dagara element calculation
+├── app/
+│   ├── api/
+│   │   ├── medicine-wheel/route.ts  # Medicine Wheel submission endpoint
+│   │   └── contact/route.ts          # Contact form endpoint
+│   ├── quiz/page.tsx                 # Medicine Wheel calculator page
+│   ├── layout.tsx                    # Root layout with navigation
+│   ├── globals.css                   # Global styles
+│   └── page.tsx                      # Homepage with pathway cards
+├── components/
+│   ├── ContactModal.tsx              # Contact form modal
+│   ├── MedicineWheel.tsx             # SVG wheel visualization
+│   ├── InfluenceTable.tsx            # Energy balance table
+│   ├── SiteNavigation.tsx            # Global header
+│   ├── Modal.tsx                     # Base modal component
+│   └── Button.tsx                    # Reusable button
+├── lib/
+│   ├── airtable.ts                   # Airtable API integration
+│   ├── medicineWheel.ts              # Numerology calculations
+│   └── dagara.ts                     # Legacy Dagara utilities
 └── styles/         # Global styles (unused, using globals.css)
 ```
 
